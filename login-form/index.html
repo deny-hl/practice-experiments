@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form class="form">
+    <div class="flex-column">
+      <lable>Email</lable>
+    </div>
+    <div class="inputForm">
+      <img src="./icons/email.svg" width="20px" height="20px">
+      <input placeholder="Enter your Email" class="input" type="text">
+    </div>
+
+    <div class="inputForm">
+      <img src="./icons/password.svg" width="20px" height="20px">
+      <input placeholder="Enter your Password" class="input" type="password">
+    </div>
+
+    <div class="flex-row">
+      <div>
+        <input type="radio">
+        <label>Remember me</label>
+      </div>
+      <span class="button-submit">Forgot password?</span>
+    </div>
+
+    <button class="button-submit">Sign In</button>
+
+    <p class="p">Don't have an account? <span class="span">Sign Up</span></p>
+    <p class="p line">Or With</p>
+
+    <div class="flex-row">
+      <button class="btn google">
+        <img src="./icons/google.svg" width="20" height="20">
+        Google
+      </button>
+      <button class="btn apple">
+        <img src="./icons/apple.svg" width="20" height="20">
+        Apple
+      </button>
+    </div>
+  </form>
+</body>
+</html>
