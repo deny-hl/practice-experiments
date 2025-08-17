@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .calculator {
+            background: #2c3e50;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .display {
+            background: #000;
+            color: #fff;
+            font-size: 2em;
+            padding: 20px;
+            text-align: right;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            font-family: monospace;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        button {
+            padding: 20px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .number {
+            background: #34495e;
+            color: white;
+        }
+        
+        .number:hover {
+            background: #4a6275;
+        }
+        
+        .operator {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .operator:hover {
+            background: #c0392b;
+        }
+        
+        .equals {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .equals:hover {
+            background: #229954;
+        }
+        
+        .function {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .function:hover {
+            background: #e67e22;
+        }
+        
+        .clear {
+            background: #e74c3c;
+            color: white;
+            grid-column: span 2;
+        }
+        
+        .clear:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="clear" data-action="clear">Clear</button>
+            <button class="function" data-action="backspace">⌫</button>
+            <button class="operator" data-operator="/">÷</button>
+            
+            <button class="number" data-digit="7">7</button>
+            <button class="number" data-digit="8">8</button>
+            <button class="number" data-digit="9">9</button>
+            <button class="operator" data-operator="*">×</button>
+            
+            <button class="number" data-digit="4">4</button>
+            <button class="number" data-digit="5">5</button>
+            <button class="number" data-digit="6">6</button>
+            <button class="operator" data-operator="-">-</button>
+            
+            <button class="number" data-digit="1">1</button>
+            <button class="number" data-digit="2">2</button>
+            <button class="number" data-digit="3">3</button>
+            <button class="operator" data-operator="+">+</button>
+            
+            <button class="number" data-digit="0" style="grid-column: span 2;">0</button>
+            <button class="function" data-action="decimal">.</button>
+            <button class="equals" data-action="equals">=</button>
+        </div>
+    </div>
+
+    <script>
+        // Assignment requirement a) - Basic math operator functions
+        function add(a, b) {
+            return a + b;
+        }
+
+        function subtract(a, b) {
+            return a - b;
+        }
+
+        function multiply(a, b) {
+            return a * b;
+        }
+
+        function divide(a, b) {
+            if (b === 0) {
+                return "Nice try, Einstein! Division by zero isn't allowed! 🤓";
+            }
+            return a / b;
+        }
+
+        // Assignment requirement b) - operate function
+        function operate(operator, a, b) {
+            const numA = parseFloat(a);
+            const numB = parseFloat(b);
+
+            let result;
+            switch(operator) {
+                case '+':
+                    result = add(numA, numB);
+                    break;
+                case '-':
+                    result = subtract(numA, numB);
+                    break;
+                case '*':
+                    result = multiply(numA, numB);
+                    break;
+                case '/':
+                    result = divide(numA, numB);
+                    break;
+                default:
+                    return "Error: Invalid operator";
+            }
+
+            // Assignment requirement f.c) - Round long decimals
+            if (typeof result === 'number' && !Number.isInteger(result)) {
+                return Math.round(result * 100000000) / 100000000;
+            }
+
+            return result;
+        }
+
+        // Assignment requirement d) - Variables to store calculator state
+        const display = document.getElementById('display');
+        let displayValue = '0';
+        let firstNumber = null;
+        let operator = null;
+        let waitingForOperand = false;
+
+        // Assignment requirement d) - Function to populate display
+        function updateDisplay() {
+            display.textContent = displayValue;
+        }
+
+        function inputDigit(digit) {
+            if (waitingForOperand) {
+                displayValue = digit;
+                waitingForOperand = false;
+            } else {
+                displayValue = displayValue === '0' ? digit : displayValue + digit;
+            }
+            updateDisplay();
+        }
+
+        // Assignment requirement g) - Decimal point functionality
+        function inputDecimal() {
+            if (waitingForOperand) {
+                displayValue = '0.';
+                waitingForOperand = false;
+            } else if (displayValue.indexOf('.') === -1) {
+                displayValue += '.';
+            }
+            updateDisplay();
+        }
+
+        // Assignment requirement h) - Backspace functionality
+        function backspace() {
+            if (displayValue.length > 1) {
+                displayValue = displayValue.slice(0, -1);
+            } else {
+                displayValue = '0';
+            }
+            updateDisplay();
+        }
+
+        // Assignment requirement f.e) - Clear function
+        function clear() {
+            displayValue = '0';
+            firstNumber = null;
+            operator = null;
+            waitingForOperand = false;
+            updateDisplay();
+        }
+
+        // Assignment requirements e, f.a, f.b) - Calculator operation logic
+        function inputOperator(nextOperator) {
+            const inputValue = parseFloat(displayValue);
+
+            if (firstNumber === null && !isNaN(inputValue)) {
+                firstNumber = inputValue;
+            } else if (operator) {
+                const currentValue = firstNumber || 0;
+                const newValue = operate(operator, currentValue, inputValue);
+
+                // Assignment requirement f.f) - Handle division by zero
+                if (typeof newValue === 'string') {
+                    displayValue = newValue;
+                    firstNumber = null;
+                    operator = null;
+                    waitingForOperand = true;
+                    updateDisplay();
+                    return;
+                }
+
+                displayValue = String(newValue);
+                firstNumber = newValue;
+                updateDisplay();
+            }
+
+            waitingForOperand = true;
+            operator = nextOperator;
+        }
+
+        // Assignment requirement e) - Equals functionality
+        function calculate() {
+            // Assignment requirement f.d) - Handle pressing equals early
+            if (firstNumber === null || operator === null || waitingForOperand) {
+                return;
+            }
+
+            const inputValue = parseFloat(displayValue);
+            const newValue = operate(operator, firstNumber, inputValue);
+
+            // Assignment requirement f.f) - Handle division by zero
+            if (typeof newValue === 'string') {
+                displayValue = newValue;
+                firstNumber = null;
+                operator = null;
+                waitingForOperand = true;
+            } else {
+                displayValue = String(newValue);
+                firstNumber = null;
+                operator = null;
+                waitingForOperand = true;
+            }
+
+            updateDisplay();
+        }
+
+        // Event listeners for button clicks
+        document.querySelector('.calculator').addEventListener('click', (e) => {
+            const target = e.target;
+
+            if (target.dataset.digit) {
+                inputDigit(target.dataset.digit);
+            } else if (target.dataset.operator) {
+                inputOperator(target.dataset.operator);
+            } else if (target.dataset.action) {
+                switch (target.dataset.action) {
+                    case 'clear':
+                        clear();
+                        break;
+                    case 'backspace':
+                        backspace();
+                        break;
+                    case 'decimal':
+                        inputDecimal();
+                        break;
+                    case 'equals':
+                        calculate();
+                        break;
+                }
+            }
+        });
+
+        // Assignment requirement i) - Keyboard support
+        document.addEventListener('keydown', (e) => {
+            const key = e.key;
+
+            if ('0123456789'.includes(key)) {
+                inputDigit(key);
+            } else if ('+-*/'.includes(key)) {
+                inputOperator(key);
+            } else if (key === '.') {
+                inputDecimal();
+            } else if (key === 'Enter' || key === '=') {
+                e.preventDefault();
+                calculate();
+            } else if (key === 'Escape' || key === 'c' || key === 'C') {
+                clear();
+            } else if (key === 'Backspace') {
+                e.preventDefault();
+                backspace();
+            }
+        });
+
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+</html>

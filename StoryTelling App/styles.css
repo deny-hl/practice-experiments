@@ -68,6 +68,7 @@ h1 {
     background-image: linear-gradient(var(--golden-yellow), var(--orange));
     border-color: var(--gold);
     border-width: 3px;
+    border-radius: 5px;
 }
 
 .btn:hover {
