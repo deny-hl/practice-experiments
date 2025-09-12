@@ -1,0 +1,11 @@
+{
+  "name": "mate-game",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel --open",
+    "buid": "parcel build --public-url=/dist/"
+  },
+  "devDependencies": {
+    "parcel": "^2.15.4"
+  }
+}
