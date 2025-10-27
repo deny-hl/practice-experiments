@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./index.html">
+  <script src="./script.js"></script>
+</head>
+<body>
+  <div class="todo-app">
+    <form
+      class="todo-app__form"
+      onsubmit="this.reset(); return false"
+    >
+<!-- onsubmit="this.reset(); return false" osed to clear the form field after submit-->
+      <input name="todo" placeholder="Enter a todo">
+      <button>Add</button>
+    </form>
+
+    <ul class="todo-app__list">
+      <li>HTNL</li>
+      <li>CSS</li>
+      <li>Javascript</li>
+    </ul>
+  </div>
+</body>
+</html>
