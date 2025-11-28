@@ -1,14 +1,14 @@
-document.addEventListener('click', () => {
-  document.body.textContent = '123'; // Showing 123 on page when left button clecked
+// document.addEventListener('click', () => {
+//   document.body.textContent = '123'; // Showing 123 on page when left button clecked
 
-  const timerId = setInterval(() => {
-    document.body.textContent = Date.now();
-  }, 1000);// showing passed time from some date till now, 1 sec refresh
+//   const timerId = setInterval(() => {
+//     document.body.textContent = Date.now();
+//   }, 1000);// showing passed time from some date till now, 1 sec refresh
 
-  document.addEventListener('contextmenu', () => {// contextmenu it is the right click
-    clearInterval(timerId);//it is stopping timer on right click
-  });
-});
+//   document.addEventListener('contextmenu', () => {// contextmenu it is the right click
+//     clearInterval(timerId);//it is stopping timer on right click
+//   });
+// });
 
 
 // Filter with callbacks
@@ -56,17 +56,14 @@ function filter(candies, isGoodEnough) {
   return result;
 }
 
-function createSizeFilter(candies, size) {
-  const result = [];
-
-  for (let i = 0; i < candies.length; i++) {
-    if (candies.length == size) {
-      result
-    }
-  }
+function createSizeFilter(size) {
+  // size = 4
+  return (candy) => candy.length <= size;
+  // (candy) => candy.length <= 4
 }
 
 const isUpTo4 = createSizeFilter(4);
+// (candy) => candy.length <= 4
 const isUpTo6 = createSizeFilter(6);
 
 console.log(
