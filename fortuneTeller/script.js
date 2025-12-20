@@ -1,36 +1,22 @@
-const fortune1 = "Your cat will look very cuddly today.";
-const fortune2 = "The weather will be nice tomorrow.";
-const fortune3 = "Be cautious of your new neighbors.";
-const fortune4 = "You will find a new hobby soon.";
-const fortune5 = "It would be wise to avoid the color red today.";
+const fortunes = [
+  "Your cat will look very cuddly today.",
+  "The weather will be nice tomorrow.",
+  "Be cautious of your new neighbors.",
+  "You will find a new hobby soon.",
+  "It would be wise to avoid the color red today."
+];
 
-const randomNumber = Math.floor(Math.random() * 5) + 1;
-
-let selectedFortune = null;
-
-switch (randomNumber) {
-  case 1:
-  selectedFortune = fortune1;
-  break;
-
-  case 2:
-  selectedFortune = fortune2;
-  break;
-
-  case 3:
-  selectedFortune = fortune3;
-  break;
-
-  case 4:
-  selectedFortune = fortune4;
-  break;
-
-  case 5:
-  selectedFortune = fortune5;
-  break;
-
-  default:
-  console.log("Other number");
+function getFortune() {
+  const selectedFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+  return selectedFortune;
 }
 
-console.log(selectedFortune);
+const fortuneDisplay = document.getElementById("fortuneDisplay");
+const getFortuneButton = document.getElementById("getFortuneButton");
+
+getFortuneButton.addEventListener("click", () => {
+  fortuneDisplay.textContent = getFortune();
+});
+
+// Display an initial fortune when the page loads
+fortuneDisplay.textContent = getFortune();
