@@ -12,3 +12,4 @@ function search(searchName, personInfo) {
     console.log('User found:', personInfo);
   }
 }
+
