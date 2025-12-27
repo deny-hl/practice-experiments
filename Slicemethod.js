@@ -17,3 +17,20 @@
 // result4 === [5, 6, 1, 4]
 // result5 === []
 
+numbers.slice = function(start = 0, end = this.length) {
+  const len = this.length;
+  const begin = start < 0 ? Math.max(0, len + start) : Math.min(start, len);
+  let finish = end < 0 ? Math.max(0, len + end) : Math.min(end, len);
+
+  if (finish < begin) {
+    finish = begin;
+  }
+
+  const result = [];
+
+  for (let i = begin; i < finish; i++) {
+    result[result.length] = this[i];
+  }
+
+  return result;
+};
